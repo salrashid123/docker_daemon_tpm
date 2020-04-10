@@ -1,5 +1,5 @@
 
-# Docker daemon mTLS with TPM based service accounts
+# Docker daemon mTLS with Trusted Platform Module
 
 Fork of docker upstream that uses a client certificate sealed into a [Trusted Platform Module (TPM)](https://en.wikipedia.org/wiki/Trusted_Platform_Module) for mTLS connections to a private docker registry.
 
