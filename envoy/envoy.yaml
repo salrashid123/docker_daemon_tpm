@@ -1,0 +1,56 @@
+admin:
+  access_log_path: /dev/null
+  address:
+    socket_address:
+      address: 127.0.0.1
+      port_value: 9000
+
+node:
+  cluster: service_greeter
+  id: test-id
+
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 443 }
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          use_remote_address: true
+          route_config:
+            name: upstream_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match:
+                  prefix: "/" 
+                route: 
+                  cluster: service_registry
+          http_filters:
+          - name: envoy.router
+      tls_context:
+        common_tls_context:
+          tls_certificates:
+          - certificate_chain:
+              filename: "server.cert"
+            private_key:
+              filename: "server.key"
+          validation_context:
+            trusted_ca:
+              filename: ca.crt
+
+  clusters:
+  - name: service_registry
+    connect_timeout: 2s
+    type: LOGICAL_DNS
+    dns_lookup_family: V4_ONLY
+    lb_policy: ROUND_ROBIN
+    hosts:
+    - socket_address:
+        address: localhost
+        port_value: 5000
