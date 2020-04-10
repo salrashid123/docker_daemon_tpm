@@ -3,7 +3,7 @@
 
 Fork of docker upstream that uses a client certificate sealed into a [Trusted Platform Module (TPM)](https://en.wikipedia.org/wiki/Trusted_Platform_Module) for mTLS connections to a private docker registry.
 
-One usecase for doing this would be to ensure allow attested docker clients can connect to and pull an image.  The docker registry owner can distribute a client certificate only after [remote attestation](https://tpm2-software.github.io/tpm2-tss/getting-started/2019/12/18/Remote-Attestation.html) of a candidate client's VM.  Remote attestation can help ensure the integrity of the docker client's whole VM and that it has not been tampered with.
+One usecase for doing this would be to ensure only attested docker clients can connect to and pull an image from your registry.  The docker registry owner can distribute a client certificate only after [remote attestation](https://tpm2-software.github.io/tpm2-tss/getting-started/2019/12/18/Remote-Attestation.html) of a candidate client's VM.  Remote attestation can help ensure the integrity of the docker client's whole VM and that it has not been tampered with.
 
 Once attestation is done, the docker registry owner can seal a client certificate such that ONLY that specific VM and TPM can decrypt seal the key to its TPM.  After the key is sealed by the docker client VM, the RSA key itself cannot leave that VM but can be asked by the docker client to sign some data.   The data the docker client asks the TPM to sign is a part of the TLS session it could initiate with an upstream docker registy.
 
