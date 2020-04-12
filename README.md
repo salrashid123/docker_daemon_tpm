@@ -198,7 +198,6 @@ cp ../diff/vendor.conf vendor.conf
 
 mkdir -p vendor/github.com/salrashid123/signer
 git clone https://github.com/salrashid123/signer.git vendor/github.com/salrashid123/signer
-cp ../diff/tpm.go  vendor/github.com/salrashid123/signer/tpm/tpm.go
 
 mkdir -p /tmp/moby/vendor/github.com/google/go-tpm/
 git clone https://github.com/google/go-tpm.git vendor/github.com/google/go-tpm
