@@ -95,8 +95,11 @@ The following step will use `go-tpm` library to seal a private key into the TPM.
 The steps below are usually automated after remote attestation is done.  For more information on remote attestation and securely transferring an RSA key to the TPM, see the references section
 
 ```bash
-gcloud compute scp importKey/importExternalRSA.go docker-client:
-gcloud compute scp importKey/go.mod docker-client:
+# following  importExternalRSA.go just takes the private key in pem format and embeds loads it as an external key into the TPM
+# the output is just a reference context handle to the TPM's version of the key
+wget https://raw.githubusercontent.com/salrashid123/tpm2/master/utils/importExternalRSA.go
+gcloud compute scp importExternalRSA.go docker-client:
+
 
 gcloud compute scp certs/ca.crt docker-client:
 gcloud compute scp certs/client.key docker-client:
@@ -107,7 +110,7 @@ SSH to the docker client and embed the key
 
 ```
 gcloud compute ssh docker-client
-
+go mod init main
 sudo /usr/local/go/bin/go run importExternalRSA.go  --pemFile client.key -primaryFileName primary.bin -keyFileName client.bin
 ```
 
