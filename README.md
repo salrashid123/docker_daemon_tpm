@@ -14,6 +14,10 @@ With a TPM, the key during transit cannot be decrypted anywhere else other than 
 >>> NOTE:  this tutorial is **NOT** supported by Google and I do not recommend using in its current for beyond amusement. 
 
 
+>> IMPORTANT: you must use at MOST go1.13 since versions beyond that uses RSA-PSS (ref [32425](https://github.com/golang/go/issues/32425)) and at least KMS 
+and TPM only support RSA
+
+
 The following tutorial will use the TPM capabilities on a Google Cloud [Shielded VM](https://cloud.google.com/security/shielded-cloud/shielded-vm) which will run the docker client with embedded keys.  Another VM will run a docker registry server which will only accept mTLS connections signed by its CA.
 
 ![images/moby_mtls.png](images/moby_mtls.png)
